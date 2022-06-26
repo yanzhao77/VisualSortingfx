@@ -1,0 +1,159 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>十大经典排序算法</title>
+
+<link type="text/css" rel="stylesheet" href="../css/index.css">
+<link type="text/css" rel="stylesheet" href="../css/zhhNav.css">
+
+</head>
+
+<style type="text/css">
+
+</style>
+
+
+
+<body>
+
+<section class="demo">
+    <ul class="nav black">
+      <li><a href="sort001.html">首页</a></li>
+      <li><a href="sort002.html">冒泡排序</a></li>
+	   <li><a href="sort002.html">选择排序</a></li>
+      <li><a href="sort003.html">插入排序、希尔排序</a></li>
+      <li><a href="sort004.html">归并排序、快速排序</a></li>
+      <li><a href="sort005.html">堆排序、计数排序</a></li>
+    </ul>
+    
+	</section>
+	<br/>
+<div id="home">
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<div class = "h1Div">
+			十大经典排序算法（第三话）
+		</div>
+		<div class="clear"></div>
+		<div class="postBody">
+	<br/>		
+<h3 id="3插入排序insertion-sort">3、插入排序（Insertion Sort）</h3>
+<br/>
+<p>插入排序（Insertion-Sort）的算法描述是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
+<br/>
+<h4>3.1 算法描述</h4>
+<br/>
+<p>一般来说，插入排序都采用in-place在数组上实现。具体算法描述如下：</p>
+<ul>
+<li>从第一个元素开始，该元素可以认为已经被排序；</li>
+<li>取出下一个元素，在已经排序的元素序列中从后向前扫描；</li>
+<li>如果该元素（已排序）大于新元素，将该元素移到下一位置；</li>
+<li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置；</li>
+<li>将新元素插入到该位置后；</li>
+<li>重复步骤2~5。</li>
+</ul>
+<br/>
+<h4>3.2 动图演示</h4>
+<br/>
+<p><img src="../images/849589-20171015225645277-1151100000.gif" alt="" width="671" height="418"></p>
+<br/>
+<h4>3.2 代码实现</h4>
+<br/>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">function insertionSort(arr) {
+    var len = arr.length;
+    var preIndex, current;
+    for (var i = 1; i &lt; len; i++) {
+        preIndex = i - 1;
+        current = arr[i];
+        while(preIndex &gt;= 0 &amp;&amp; arr[preIndex] &gt; current) {
+            arr[preIndex+1] = arr[preIndex];
+            preIndex--;
+        }
+        arr[preIndex+1] = current;
+    }
+    return arr;
+}
+</pre>
+</div>
+<br/>
+<h4>3.4&nbsp;<strong>算法分析</strong></h4>
+<br/>
+<p>最佳情况：T(n) = O(n) &nbsp; 最坏情况：T(n) = O(n2) &nbsp;&nbsp;平均情况：T(n) = O(n2)</p>
+<br/>
+<h3 id="4希尔排序shell-sort">4、希尔排序（Shell Sort）</h3>
+<br/>
+<p>1959年Shell发明，第一个突破O(n^2)的排序算法，是简单插入排序的改进版。它与插入排序的不同之处在于，它会优先比较距离较远的元素。希尔排序又叫缩小增量排序。</p>
+<p>希尔排序的核心在于间隔序列的设定。既可以提前设定好间隔序列，也可以动态的定义间隔序列。动态定义间隔序列的算法是《算法（第4版》的合著者Robert Sedgewick提出的。　</p>
+<br/>
+<h4>4.1 算法描述</h4>
+<br/>
+<p>先将整个待排序的记录序列分割成为若干子序列分别进行直接插入排序，具体算法描述：</p>
+<ul>
+<li>选择一个增量序列t1，t2，…，tk，其中ti&gt;tj，tk=1；</li>
+<li>按增量序列个数k，对序列进行k 趟排序；</li>
+<li>每趟排序，根据对应的增量ti，将待排序列分割成若干长度为m 的子序列，分别对各子表进行直接插入排序。仅增量因子为1 时，整个序列作为一个表来处理，表长度即为整个序列的长度。</li>
+</ul>
+<br/>
+<h4>4.2 过程演示</h4>
+<br/>
+<p><img src="../images/849589-20171015231833168-2074081697.png" alt="" width="418" height="409"></p>
+<br/>
+<h4>4.3 代码实现</h4>
+<br/>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">function shellSort(arr) {
+    var len = arr.length,
+        temp,
+        gap = 1;
+    while(gap &lt; len/3) {          //动态定义间隔序列
+        gap =gap*3+1;
+    }
+    for (gap; gap&gt; 0; gap = Math.floor(gap/3)) {
+        for (var i = gap; i &lt; len; i++) {
+            temp = arr[i];
+            for (var j = i-gap; j &gt; 0 &amp;&amp; arr[j]&gt; temp; j-=gap) {
+                arr[j+gap] = arr[j];
+            }
+            arr[j+gap] = temp;
+        }
+    }
+    return arr;
+}
+</pre>
+</div>
+<h4>4.4 算法分析</h4>
+<br/>
+<p>最佳情况：T(n) = O(nlog2 n) &nbsp;最坏情况：T(n) = O(nlog2 n) &nbsp;平均情况：T(n) =O(nlog n)　</p>
+
+<p><<上一篇：<a href='sort002.html'>冒泡排序、选择排序</a></p>
+<p>>>下一篇：<a href='sort004.html'>归并排序、快速排序</a></p>
+
+<p></p>
+</div>
+</div>
+</div>
+	
+</div>
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+<div id='comment_form' class='commentform'>
+<div id='comment_nav'><a href='#top'>返回顶部</a></div>
+
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+</body>
+</html>

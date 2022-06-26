@@ -1,0 +1,203 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>十大经典排序算法</title>
+
+<link type="text/css" rel="stylesheet" href="../css/index.css">
+<link type="text/css" rel="stylesheet" href="../css/zhhNav.css">
+
+
+</head>
+
+<style type="text/css">
+
+</style>
+
+
+
+<body>
+
+<section class="demo">
+    <ul class="nav black">
+      <li><a href="sort001.html">首页</a></li>
+      <li><a href="sort002.html">冒泡排序</a></li>
+	   <li><a href="sort002.html">选择排序</a></li>
+      <li><a href="sort003.html">插入排序、希尔排序</a></li>
+      <li><a href="sort004.html">归并排序、快速排序</a></li>
+      <li><a href="sort005.html">堆排序、计数排序</a></li>
+    </ul>
+    
+	</section>
+	<br/>
+<div id="home">
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<div class = "h1Div">
+			十大经典排序算法（第六话）
+		</div>
+		<div class="clear"></div>
+		<div class="postBody">
+	<br/>		
+<h3 id="9桶排序bucket-sort">9、桶排序（Bucket Sort）</h3>
+<br/>
+<p>桶排序是计数排序的升级版。它利用了函数的映射关系，高效与否的关键就在于这个映射函数的确定。</p>
+<p>桶排序 (Bucket sort)的工作的原理：假设输入数据服从均匀分布，将数据分到有限数量的桶里，每个桶再分别排序（有可能再使用别的排序算法或是以递归方式继续使用桶排序进行排</p>
+<br/>
+<h4 id="3算法分析-5">9.1 算法描述</h4>
+<br/>
+<ul>
+<li>设置一个定量的数组当作空桶；</li>
+<li>遍历输入数据，并且把数据一个一个放到对应的桶里去；</li>
+<li>对每个不是空的桶进行排序；</li>
+<li>从不是空的桶里把排好序的数据拼接起来。&nbsp;</li>
+</ul>
+<br/>
+<h4>9.2 图片演示</h4>
+<br/>
+<p><img src="../images/849589-20171015232107090-1920702011.png" alt=""></p>
+<br/>
+<h4>9.3 代码实现</h4>
+<br/>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">function bucketSort(arr, bucketSize) {
+    if (arr.length === 0) {
+      return arr;
+    }
+
+    var i;
+    var minValue = arr[0];
+    var maxValue = arr[0];
+    for (i = 1; i &lt; arr.length; i++) {
+      if (arr[i] &lt; minValue) {
+          minValue = arr[i];                //输入数据的最小值
+      } else if (arr[i] &gt; maxValue) {
+          maxValue = arr[i];                //输入数据的最大值
+      }
+    }
+
+    //桶的初始化
+    var DEFAULT_BUCKET_SIZE = 5;            //设置桶的默认数量为5
+    bucketSize = bucketSize || DEFAULT_BUCKET_SIZE;
+    var bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;   
+    var buckets = new Array(bucketCount);
+    for (i = 0; i &lt; buckets.length; i++) {
+        buckets[i] = [];
+    }
+
+    //利用映射函数将数据分配到各个桶中
+    for (i = 0; i &lt; arr.length; i++) {
+        buckets[Math.floor((arr[i] - minValue) / bucketSize)].push(arr[i]);
+    }
+
+    arr.length = 0;
+    for (i = 0; i &lt; buckets.length; i++) {
+        insertionSort(buckets[i]);                      //对每个桶进行排序，这里使用了插入排序
+        for (var j = 0; j &lt; buckets[i].length; j++) {
+            arr.push(buckets[i][j]);                      
+        }
+    }
+
+    return arr;
+}
+</pre>
+</div>
+<br/>
+<h4 id="3算法分析-7">9.4 算法分析</h4>
+<br/>
+<p>桶排序最好情况下使用线性时间O(n)，桶排序的时间复杂度，取决与对各个桶之间数据进行排序的时间复杂度，因为其它部分的时间复杂度都为O(n)。很显然，桶划分的越小，各个桶之间的数据越少，排序所用的时间也会越少。但相应的空间消耗就会增大。&nbsp;</p>
+<p>最佳情况：T(n) = O(n+k) &nbsp; 最差情况：T(n) = O(n+k) &nbsp; 平均情况：T(n) = O(n2)　　</p>
+
+<br/>
+<h3 id="10基数排序radix-sort">10、基数排序（Radix Sort）</h3>
+<br/>
+
+<p>基数排序也是非比较的排序算法，对每一位进行排序，从最低位开始排序，复杂度为O(kn),为数组长度，k为数组中的数的最大的位数；</p>
+<p>基数排序是按照低位先排序，然后收集；再按照高位排序，然后再收集；依次类推，直到最高位。有时候有些属性是有优先级顺序的，先按低优先级排序，再按高优先级排序。最后的次序就是高优先级高的在前，高优先级相同的低优先级高的在前。基数排序基于分别排序，分别收集，所以是稳定的。</p>
+<br/>
+<h4 id="2算法描述和实现-9">10.1 算法描述</h4>
+<br/>
+<ul>
+<li>取得数组中的最大数，并取得位数；</li>
+<li>arr为原始数组，从最低位开始取每个位组成radix数组；</li>
+<li>对radix进行计数排序（利用计数排序适用于小范围数的特点）；</li>
+</ul>
+<br/>
+<h4>10.2 动图演示</h4>
+<br/>
+<p><img src="../images/849589-20171015232453668-1397662527.gif" alt="" width="686" height="389">&nbsp;</p>
+<br/>
+<h4>10.3 代码实现</h4>
+<br/>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">//LSD Radix Sort
+var counter = [];
+function radixSort(arr, maxDigit) {
+    var mod = 10;
+    var dev = 1;
+    for (var i = 0; i &lt; maxDigit; i++, dev *= 10, mod *= 10) {
+        for(var j = 0; j &lt; arr.length; j++) {
+            var bucket = parseInt((arr[j] % mod) / dev);
+            if(counter[bucket]==null) {
+                counter[bucket] = [];
+            }
+            counter[bucket].push(arr[j]);
+        }
+        var pos = 0;
+        for(var j = 0; j &lt; counter.length; j++) {
+            var value = null;
+            if(counter[j]!=null) {
+                while ((value = counter[j].shift()) != null) {
+                      arr[pos++] = value;
+                }
+          }
+        }
+    }
+    return arr;
+}</pre>
+</div>
+<br/>
+<h4 id="3算法分析-8">10.4 算法分析</h4>
+<br/>
+<p>最佳情况：T(n) = O(n * k) &nbsp; 最差情况：T(n) = O(n * k) &nbsp; 平均情况：T(n) = O(n * k)</p>
+<p>基数排序有两种方法：</p>
+<p>MSD 从高位开始进行排序 LSD 从低位开始进行排序&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>基数排序 vs 计数排序 vs 桶排序</strong></p>
+<p>这三种排序算法都利用了桶的概念，但对桶的使用方法上有明显差异：</p>
+<ul>
+<li>基数排序：根据键值的每位数字来分配桶</li>
+<li>计数排序：每个桶只存储单一键值</li>
+<li>桶排序：每个桶存储一定范围的数值</li>
+</ul>
+
+<p><<上一篇：<a href='sort005.html'>堆排序、计数排序</a></p>
+<p>>>首页：<a href='sort001.html'>排序算法简介</a></p>
+
+<p></p>
+</div>
+</div>
+</div>
+	
+</div>
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+<div id='comment_form' class='commentform'>
+<div id='comment_nav'><a href='#top'>返回顶部</a></div>
+
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+</body>
+</html>

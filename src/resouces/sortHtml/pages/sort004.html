@@ -1,0 +1,186 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>十大经典排序算法</title>
+
+<link type="text/css" rel="stylesheet" href="../css/index.css">
+<link type="text/css" rel="stylesheet" href="../css/zhhNav.css">
+
+</head>
+
+<style type="text/css">
+
+</style>
+
+
+
+<body>
+<section class="demo">
+    <ul class="nav black">
+      <li><a href="sort001.html">首页</a></li>
+      <li><a href="sort002.html">冒泡排序</a></li>
+	   <li><a href="sort002.html">选择排序</a></li>
+      <li><a href="sort003.html">插入排序、希尔排序</a></li>
+      <li><a href="sort004.html">归并排序、快速排序</a></li>
+      <li><a href="sort005.html">堆排序、计数排序</a></li>
+    </ul>
+    
+	</section>
+	<br/>
+
+<div id="home">
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<div class = "h1Div">
+			十大经典排序算法（第四话）
+		</div>
+		<div class="clear"></div>
+		<div class="postBody">
+	<br/>		
+
+<h3 id="5归并排序merge-sort">5、归并排序（Merge Sort）</h3>
+<br/>
+<p>和选择排序一样，归并排序的性能不受输入数据的影响，但表现比选择排序好的多，因为始终都是O(n log n）的时间复杂度。代价是需要额外的内存空间。</p>
+<p>归并排序是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。归并排序是一种稳定的排序方法。将已有序的子序列合并，得到完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成一个有序表，称为2-路归并。&nbsp;</p>
+<br/>
+<h4>5.1 算法描述</h4>
+<br/>
+
+<ul>
+<li>把长度为n的输入序列分成两个长度为n/2的子序列；</li>
+<li>对这两个子序列分别采用归并排序；</li>
+<li>将两个排序好的子序列合并成一个最终的排序序列。</li>
+</ul>
+<br/>
+<h4>5.2 动图演示</h4>
+<br/>
+<p><img src="../images/849589-20171015230557043-37375010.gif" alt="" width="678" height="422"></p>
+<h4>5.3 代码实现</h4>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">function mergeSort(arr) {  //采用自上而下的递归方法
+    var len = arr.length;
+    if(len &lt; 2) {
+        return arr;
+    }
+    var middle = Math.floor(len / 2),
+        left = arr.slice(0, middle),
+        right = arr.slice(middle);
+    return merge(mergeSort(left), mergeSort(right));
+}
+
+function merge(left, right)
+{
+    var result = [];
+
+    while (left.length&gt;0 &amp;&amp; right.length&gt;0) {
+        if (left[0] &lt;= right[0]) {
+            result.push(left.shift());
+        } else {
+            result.push(right.shift());
+        }
+    }
+
+    while (left.length)
+        result.push(left.shift());
+
+    while (right.length)
+        result.push(right.shift());
+
+    return result;
+}
+</pre>
+</div>
+<br/>
+<h4>5. 4 算法分析</h4>
+<br/>
+<p>最佳情况：T(n) = O(n) &nbsp;最差情况：T(n) = O(nlogn) &nbsp;平均情况：T(n) = O(nlogn)</p>
+<br/>
+<h3 id="6快速排序quick-sort">6、快速排序（Quick Sort）</h3>
+<br/>
+<p>快速排序的基本思想：通过一趟排序将待排记录分隔成独立的两部分，其中一部分记录的关键字均比另一部分的关键字小，则可分别对这两部分记录继续进行排序，以达到整个序列有序。</p>
+<br/>
+<h4 id="2算法描述和实现-5">6.1 算法描述</h4>
+<br/>
+<p>快速排序使用分治法来把一个串（list）分为两个子串（sub-lists）。具体算法描述如下：</p>
+<ul>
+<li>从数列中挑出一个元素，称为 “基准”（pivot）；</li>
+<li>重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作；</li>
+<li>递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</li>
+</ul>
+<br/>
+<h4>6.2 动图演示</h4>
+<br/>
+<p><img src="../images/849589-20171015230936371-1413523412.gif" alt="" width="682" height="212"></p>
+<br/>
+<h4>6.3 代码实现</h4>
+<br/>
+<div class="cnblogs_Highlighter">
+<pre class="brush:csharp;gutter:true;">function quickSort(arr, left, right) {
+    var len = arr.length,
+        partitionIndex,
+        left = typeof left != 'number' ? 0 : left,
+        right = typeof right != 'number' ? len - 1 : right;
+
+    if (left &lt; right) {
+        partitionIndex = partition(arr, left, right);
+        quickSort(arr, left, partitionIndex-1);
+        quickSort(arr, partitionIndex+1, right);
+    }
+    return arr;
+}
+
+function partition(arr, left ,right) {     //分区操作
+    var pivot = left,                      //设定基准值（pivot）
+        index = pivot + 1;
+    for (var i = index; i &lt;= right; i++) {
+        if (arr[i] &lt; arr[pivot]) {
+            swap(arr, i, index);
+            index++;
+        }        
+    }
+    swap(arr, pivot, index - 1);
+    return index-1;
+}
+
+function swap(arr, i, j) {
+    var temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+</pre>
+</div>
+<h4>6.4 算法分析</h4>
+<br/>
+<p>最佳情况：T(n) = O(nlogn) &nbsp;&nbsp;最差情况：T(n) = O(n2) &nbsp;&nbsp;平均情况：T(n) = O(nlogn)　</p>
+
+<p><<上一篇：<a href='sort003.html'>插入排序、希尔排序</a></p>
+<p>>>下一篇：<a href='sort005.html'>堆排序、计数排序</a></p>
+
+<p></p>
+</div>
+</div>
+</div>
+	
+</div>
+	
+</div><!--end: topics 文章、评论容器-->
+</div>
+<div id='comment_form' class='commentform'>
+<div id='comment_nav'><a href='#top'>返回顶部</a></div>
+
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+</body>
+</html>
